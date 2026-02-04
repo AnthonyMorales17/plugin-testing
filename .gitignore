@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+src/ui/node_modules/
+
+# Environment & Database
+*.db
+.env
+
+# Build artifacts (root level only)
+/dist/
+/coverage/
+
+# OS files
+.DS_Store
+*.log
+
+# Temporary folders
+/reports/
+/uploads/
+/temp-exports/
+
+# Keep UI build for deployment
+!src/ui/build/
