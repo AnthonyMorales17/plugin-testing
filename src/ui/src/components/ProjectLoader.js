@@ -23,7 +23,7 @@ function ProjectLoader({ onProjectLoaded, onTestsComplete }) {
     if (testStatus.running) {
       interval = setInterval(async () => {
         try {
-          const response = await fetch('http://localhost:3002/api/project/test-status');
+          const response = await fetch('/api/project/test-status');
           const status = await response.json();
           setTestStatus(status);
           
@@ -74,7 +74,7 @@ function ProjectLoader({ onProjectLoaded, onTestsComplete }) {
       const formData = new FormData();
       formData.append('projectZip', file);
       
-      const response = await fetch('http://localhost:3002/api/project/upload-zip', {
+      const response = await fetch('/api/project/upload-zip', {
         method: 'POST',
         body: formData
       });
@@ -108,7 +108,7 @@ function ProjectLoader({ onProjectLoaded, onTestsComplete }) {
     setError(null);
     
     try {
-      const response = await fetch('http://localhost:3002/api/project/load', {
+      const response = await fetch('/api/project/load', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ projectPath })
@@ -139,7 +139,7 @@ function ProjectLoader({ onProjectLoaded, onTestsComplete }) {
     
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3002/api/project/start-server', {
+      const response = await fetch('/api/project/start-server', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ port: project.port || 3001 })
@@ -165,7 +165,7 @@ function ProjectLoader({ onProjectLoaded, onTestsComplete }) {
     setError(null);
     
     try {
-      const response = await fetch('http://localhost:3002/api/project/run-tests', {
+      const response = await fetch('/api/project/run-tests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -190,7 +190,7 @@ function ProjectLoader({ onProjectLoaded, onTestsComplete }) {
 
   const handleCancelTests = async () => {
     try {
-      await fetch('http://localhost:3002/api/project/cancel-tests', {
+      await fetch('/api/project/cancel-tests', {
         method: 'POST'
       });
       setTestStatus({ running: false, progress: 'Cancelled', logs: [] });

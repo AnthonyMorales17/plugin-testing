@@ -1087,6 +1087,11 @@ app.post('/api/project/scan-directory', (req, res) => {
 // SERVIR ARCHIVOS ESTÁTICOS Y SPA
 // ========================================
 
+// Health check (debe estar antes del SPA fallback)
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
 // Servir archivos estáticos de la carpeta build o public si build no existe
 let buildPath = path.join(__dirname, 'build');
 if (!fs.existsSync(buildPath)) {
@@ -1102,12 +1107,7 @@ app.get('*', (req, res) => {
   }
 });
 
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
-
 app.listen(PORT, () => {
-  console.log(`Report API server running on http://localhost:${PORT}`);
+  console.log(`Report API server running on port ${PORT}`);
   console.log(`Serving static files from: ${buildPath}`);
 });

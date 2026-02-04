@@ -13,7 +13,7 @@ function App() {
 
   const loadLatestReport = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3002/api/latest-report');
+      const response = await fetch('/api/latest-report');
       if (!response.ok) throw new Error('Failed to load report');
       const data = await response.json();
       
@@ -40,7 +40,7 @@ function App() {
     if (!reportData) return;
     
     try {
-      const response = await fetch('http://localhost:3002/api/export-pdf', {
+      const response = await fetch('/api/export-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(reportData)
@@ -74,7 +74,7 @@ function App() {
     console.log('[RESET] Iniciando reset...');
     // Limpiar el proyecto cargado en el servidor
     try {
-      const response = await fetch('http://localhost:3002/api/project/unload', { method: 'POST' });
+      const response = await fetch('/api/project/unload', { method: 'POST' });
       const data = await response.json();
       console.log('[RESET] Servidor respondió:', data);
     } catch (e) {
