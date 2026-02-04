@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ReportViewer from './components/ReportViewer';
 import ProjectLoader from './components/ProjectLoader';
 import './App.css';
@@ -11,13 +11,7 @@ function App() {
   const [activeTab, setActiveTab] = useState('loader'); 
   const [loadedProject, setLoadedProject] = useState(null);
 
-  useEffect(() => {
-    loadLatestReport();
-    const interval = setInterval(loadLatestReport, 2000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const loadLatestReport = async () => {
+  const loadLatestReport = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:3002/api/latest-report');
       if (!response.ok) throw new Error('Failed to load report');
@@ -34,7 +28,13 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [loading]);
+
+  useEffect(() => {
+    loadLatestReport();
+    const interval = setInterval(loadLatestReport, 2000);
+    return () => clearInterval(interval);
+  }, [loadLatestReport]);
 
   const handleExportPDF = async () => {
     if (!reportData) return;
